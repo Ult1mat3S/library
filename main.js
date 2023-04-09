@@ -15,7 +15,7 @@ const form = document.querySelector(".my-form");
 // });
 
 const submit = document.querySelector(".submit");
-submit.addEventListener("click", () => {
+submit.addEventListener("click", (e) => {
   e.preventDefault();
   if (title.value.length === 0 || author.value.length === 0) {
     alert("Fields not filled");
