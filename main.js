@@ -1,6 +1,30 @@
 let myLibrary = [];
-var cards = document.querySelector(".card");
-let table = document.querySelector("table");
+const cards = document.querySelector(".card");
+const table = document.querySelector("table");
+const title = document.querySelector(".title");
+const author = document.querySelector(".author");
+const pages = document.querySelector(".pages");
+const read = document.querySelector(".read");
+const modal = document.getElementById("myModal");
+const btn = document.getElementById("myBtn");
+const span = document.getElementsByClassName("close")[0];
+const form = document.querySelector(".my-form");
+
+// const submit = document.querySelector(".submit").addEventListener("submit", (e) => {
+//   e.preventDefault();
+// });
+
+const submit = document.querySelector(".submit");
+submit.addEventListener("click", () => {
+  e.preventDefault();
+  if (title.value.length === 0 || author.value.length === 0) {
+    alert("Fields not filled");
+    return;
+  }
+  console.log("clicked");
+  console.log(`${title.value}`);
+  addBookToLibrary();
+});
 
 class Book {
   constructor(title, author, pages, read) {
@@ -11,29 +35,33 @@ class Book {
   }
 }
 
-const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", "295", "not read yet"); //
-
-myLibrary.push(theHobbit);
-
 function addBookToLibrary() {
-  // for (let i = 0; i < myLibrary.length; i++) {
-  //   cards[i].textContent = myLibrary[i];
-  // }
-
+  const addBook = new Book(`${title.value}`, `${author.value}`, `${pages.value}`, `${read.value}`); //
+  myLibrary.push(addBook);
   myLibrary.forEach((book) => {
-    const htmlBook = `
+    const bookElement = `
       <div>
         <h2>Title: ${book.title}</h2>
         <p> Author: ${book.author}</p>
-         <p> # of pages:${book.pages} </p>
+        <p> # of pages:${book.pages} </p>
         <p> Read: <button class="status-button"> ${book.read}</button></p>
         <p><button class="delete">delete</button></p>
       </div>
       `;
-    cards.insertAdjacentHTML("afterbegin", htmlBook);
+    cards.insertAdjacentHTML("afterbegin", bookElement);
   });
 }
 
-addBookToLibrary();
+btn.onclick = function () {
+  modal.style.display = "block";
+};
 
-console.log(myLibrary);
+span.onclick = function () {
+  modal.style.display = "none";
+};
+
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
