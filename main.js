@@ -9,22 +9,7 @@ const modal = document.getElementById("myModal");
 const btn = document.getElementById("myBtn");
 const span = document.getElementsByClassName("close")[0];
 const form = document.querySelector(".my-form");
-
-// const submit = document.querySelector(".submit").addEventListener("submit", (e) => {
-//   e.preventDefault();
-// });
-
-const submit = document.querySelector(".submit");
-submit.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (title.value.length === 0 || author.value.length === 0) {
-    alert("Fields not filled");
-    return;
-  }
-  console.log("clicked");
-  console.log(`${title.value}`);
-  addBookToLibrary();
-});
+const body = document.querySelector("body");
 
 class Book {
   constructor(title, author, pages, read) {
@@ -35,33 +20,54 @@ class Book {
   }
 }
 
+const submit = document.querySelector(".submit").addEventListener("click", (e) => {
+  e.preventDefault();
+  if (title.value.length === 0 || author.value.length === 0 || pages.value.length === 0 || read.value.length === 0) {
+    alert("One or more fields were left blank");
+    return;
+  }
+  addBookToLibrary();
+  console.log(myLibrary);
+});
+
 function addBookToLibrary() {
   const addBook = new Book(`${title.value}`, `${author.value}`, `${pages.value}`, `${read.value}`); //
   myLibrary.push(addBook);
+
   myLibrary.forEach((book) => {
     const bookElement = `
-      <div>
+      <div class="card">
         <h2>Title: ${book.title}</h2>
         <p> Author: ${book.author}</p>
-        <p> # of pages:${book.pages} </p>
-        <p> Read: <button class="status-button"> ${book.read}</button></p>
+        <p> # of pages: ${book.pages} </p>
+        <p> Read: <button  type="button" class="read"> ${book.read}</button></p>
         <p><button class="delete">delete</button></p>
       </div>
       `;
-    cards.insertAdjacentHTML("afterbegin", bookElement);
+
+    body.insertAdjacentHTML("beforeend", bookElement);
+
+    myLibrary = [];
   });
 }
 
-btn.onclick = function () {
+btn.onclick = () => {
   modal.style.display = "block";
 };
 
-span.onclick = function () {
+span.onclick = () => {
   modal.style.display = "none";
 };
 
-window.onclick = function (event) {
-  if (event.target == modal) {
+window.onclick = (e) => {
+  if (e.target == modal) {
     modal.style.display = "none";
   }
 };
+
+const buttonPressed = (e) => {
+  e.target.classList.toggle("read");
+  e.target.classList.toggle("unread");
+  e.target.textContent = e.target.textContent.trim() === "UNREAD" ? "READ" : "UNREAD";
+};
+read.addEventListener("click", buttonPressed);

@@ -41,3 +41,15 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.read {
+  background: #33b249;
+  color: white;
+  border: 0;
+}
+
+.unread {
+  background: red;
+  color: white;
+  border: 0;
+}
