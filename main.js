@@ -16,24 +16,31 @@ class Book {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = read;
+    this.read = read || "READ";
   }
 }
 
 const submit = document.querySelector(".submit").addEventListener("click", (e) => {
   e.preventDefault();
-  if (title.value.length === 0 || author.value.length === 0 || pages.value.length === 0 || read.value.length === 0) {
+  if (title.value.length === 0 || author.value.length === 0 || pages.value.length === 0) {
     alert("One or more fields were left blank");
     return;
   }
   addBookToLibrary();
-  console.log(myLibrary);
 });
+
+const buttonPressed = (e) => {
+  e.target.classList.toggle("read");
+  e.target.classList.toggle("unread");
+  e.target.textContent = e.target.textContent.trim() === "UNREAD" ? "READ" : "UNREAD";
+  read.value = e.target.textContent;
+};
+read.addEventListener("click", buttonPressed);
 
 function addBookToLibrary() {
   const addBook = new Book(`${title.value}`, `${author.value}`, `${pages.value}`, `${read.value}`); //
   myLibrary.push(addBook);
-
+  console.log(myLibrary);
   myLibrary.forEach((book) => {
     const bookElement = `
       <div class="card">
@@ -64,10 +71,3 @@ window.onclick = (e) => {
     modal.style.display = "none";
   }
 };
-
-const buttonPressed = (e) => {
-  e.target.classList.toggle("read");
-  e.target.classList.toggle("unread");
-  e.target.textContent = e.target.textContent.trim() === "UNREAD" ? "READ" : "UNREAD";
-};
-read.addEventListener("click", buttonPressed);
